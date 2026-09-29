@@ -51,7 +51,9 @@
   }
 
   function renderProducts() {
-    $("#product-cards").innerHTML = config.products.map((product, index) => `<article class="product-card reveal" style="--delay:${index * 80}ms"><h3>${t(product.titleKey)}</h3><p class="product-card__price">${product.price}</p><ul>${product.benefitKeys.map((key) => `<li>${icon("check")}<span>${t(key)}</span></li>`).join("")}</ul></article>`).join("");
+    // Language changes replace these elements after the observer was created.
+    // Keep them visible immediately so none of the support packs disappear.
+    $("#product-cards").innerHTML = config.products.map((product, index) => `<article class="product-card reveal is-visible" style="--delay:${index * 80}ms"><h3>${t(product.titleKey)}</h3><p class="product-card__price">${product.price}</p><ul>${product.benefitKeys.map((key) => `<li>${icon("check")}<span>${t(key)}</span></li>`).join("")}</ul></article>`).join("");
   }
 
   function updateStatusUi(state, detail) {
