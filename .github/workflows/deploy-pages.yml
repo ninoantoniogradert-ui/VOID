@@ -1,0 +1,42 @@
+name: Deploy VOID website to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dist/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v6
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Restore launcher download
+        shell: bash
+        run: |
+          cat assets/launcher/VOID.exe.gz.b64.part-* | base64 --decode | gzip --decompress > dist/download/VOID.exe
+          echo "62FF2B324DB1113AE05FA46F434E279C3D557AF1B4FF107E4E6316A7B2AAC5CC  dist/download/VOID.exe" | sha256sum --check --status
+      - name: Upload static website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
