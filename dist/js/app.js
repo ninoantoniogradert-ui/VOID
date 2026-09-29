@@ -51,7 +51,7 @@
   }
 
   function renderProducts() {
-    $("#product-cards").innerHTML = config.products.map((product, index) => `<article class="product-card ${product.featured ? "product-card--featured" : ""} reveal" style="--delay:${index * 80}ms">${product.featured ? '<span class="product-card__label">VOID</span>' : ""}<h3>${t(product.titleKey)}</h3><p class="product-card__price">${product.price}</p><ul>${product.benefitKeys.map((key) => `<li>${icon("check")}<span>${t(key)}</span></li>`).join("")}</ul></article>`).join("");
+    $("#product-cards").innerHTML = config.products.map((product, index) => `<article class="product-card reveal" style="--delay:${index * 80}ms"><h3>${t(product.titleKey)}</h3><p class="product-card__price">${product.price}</p><ul>${product.benefitKeys.map((key) => `<li>${icon("check")}<span>${t(key)}</span></li>`).join("")}</ul></article>`).join("");
   }
 
   function updateStatusUi(state, detail) {
@@ -134,3 +134,4 @@
 
   window.addEventListener("beforeunload", () => { if (statusTimer) window.clearInterval(statusTimer); });
 })();
+
