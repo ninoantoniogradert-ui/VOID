@@ -33,8 +33,14 @@ jobs:
       - name: Restore launcher download
         shell: bash
         run: |
-          cat assets/launcher/VOID.exe.gz.b64.part-* | base64 --decode | gzip --decompress > dist/download/VOID.exe
-          echo "62FF2B324DB1113AE05FA46F434E279C3D557AF1B4FF107E4E6316A7B2AAC5CC  dist/download/VOID.exe" | sha256sum --check --status
+          python3 - <<'PY'
+          import base64, glob, gzip, hashlib
+          from pathlib import Path
+          chunks = "".join(Path(part).read_text(encoding="ascii") for part in sorted(glob.glob("assets/launcher/VOID.exe.gz.b64.part-*")))
+          launcher = gzip.decompress(base64.b64decode(chunks))
+          assert hashlib.sha256(launcher).hexdigest().upper() == "62FF2B324DB1113AE05FA46F434E279C3D557AF1B4FF107E4E6316A7B2AAC5CC"
+          Path("dist/download/VOID.exe").write_bytes(launcher)
+          PY
       - name: Upload static website
         uses: actions/upload-pages-artifact@v4
         with:
