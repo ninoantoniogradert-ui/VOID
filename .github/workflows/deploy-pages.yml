@@ -39,7 +39,7 @@ jobs:
           from pathlib import Path
           chunks = "".join(Path(part).read_text(encoding="ascii") for part in sorted(glob.glob("assets/installer/VOID-Setup.exe.gz.b64.part-*")))
           installer = gzip.decompress(base64.b64decode(chunks))
-          assert hashlib.sha256(installer).hexdigest().upper() == "37FEBA85F7D05034C37A0ABC9BA41A390196E1D51871B91AF0EF5ADF39959E27"
+          assert hashlib.sha256(installer).hexdigest().upper() == "4D692EFF40671CDC2ECE4CA92AEF716C91149031FB279180D64933A214ECAC09"
           target = Path("dist/download/VOID-Setup.exe")
           target.parent.mkdir(parents=True, exist_ok=True)
           target.write_bytes(installer)
@@ -51,3 +51,4 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
