@@ -30,4 +30,3 @@ window.VOID_TRANSLATIONS = {
     footerTagline: "ORIGINAL ERA. MODERN PLATFORM.", footerStatus: "API-CONNECTED DESIGN", footerPrivacy: "Privacy", footerLegal: "Legal", language: "Language", unknown: "Unknown", apiLabel: "API"
   }
 };
-

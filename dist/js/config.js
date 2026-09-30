@@ -2,9 +2,10 @@
 window.VOID_CONFIG = Object.freeze({
   siteName: "VOID",
   discordInviteUrl: "https://discord.gg/QCfjCvfub6",
-  // Relative path keeps the direct launcher download working both on
-  // http://void/ and on GitHub Pages at /VOID/.
-  launcherDownloadUrl: "./download/VOID.exe",
+  // Relative path keeps the Windows installer download working both on
+  // http://void/ and on GitHub Pages at /VOID/. Visitors receive a setup
+  // program, not a portable launcher executable.
+  launcherDownloadUrl: "./download/VOID-Setup.exe",
   // The local launcher backend is intentionally never requested by visitors
   // to the public website. On GitHub Pages the public UI stays available and
   // shows the server state as unknown until a public API is configured.

@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "dist/**"
+      - "assets/installer/**"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
@@ -30,18 +31,18 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Restore launcher download
+      - name: Restore VOID Windows installer
         shell: bash
         run: |
           python3 - <<'PY'
           import base64, glob, gzip, hashlib
           from pathlib import Path
-          chunks = "".join(Path(part).read_text(encoding="ascii") for part in sorted(glob.glob("assets/launcher/VOID.exe.gz.b64.part-*")))
-          launcher = gzip.decompress(base64.b64decode(chunks))
-          assert hashlib.sha256(launcher).hexdigest().upper() == "10AB834AC3771D0ADC9583701BBCE58E2B520BFBCB6525808CBE07E705361E33"
-          target = Path("dist/download/VOID.exe")
+          chunks = "".join(Path(part).read_text(encoding="ascii") for part in sorted(glob.glob("assets/installer/VOID-Setup.exe.gz.b64.part-*")))
+          installer = gzip.decompress(base64.b64decode(chunks))
+          assert hashlib.sha256(installer).hexdigest().upper() == "37FEBA85F7D05034C37A0ABC9BA41A390196E1D51871B91AF0EF5ADF39959E27"
+          target = Path("dist/download/VOID-Setup.exe")
           target.parent.mkdir(parents=True, exist_ok=True)
-          target.write_bytes(launcher)
+          target.write_bytes(installer)
           PY
       - name: Upload static website
         uses: actions/upload-pages-artifact@v4
@@ -50,4 +51,3 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
