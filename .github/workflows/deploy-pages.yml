@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "dist/**"
+      - "assets/installer/**"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
@@ -30,6 +31,19 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Restore VOID Windows installer
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64, glob, gzip, hashlib
+          from pathlib import Path
+          chunks = "".join(Path(part).read_text(encoding="ascii") for part in sorted(glob.glob("assets/installer/VOID-Setup.exe.gz.b64.part-*")))
+          installer = gzip.decompress(base64.b64decode(chunks))
+          assert hashlib.sha256(installer).hexdigest().upper() == "4D692EFF40671CDC2ECE4CA92AEF716C91149031FB279180D64933A214ECAC09"
+          target = Path("dist/download/VOID-Setup.exe")
+          target.parent.mkdir(parents=True, exist_ok=True)
+          target.write_bytes(installer)
+          PY
       - name: Upload static website
         uses: actions/upload-pages-artifact@v4
         with:
@@ -37,4 +51,3 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
