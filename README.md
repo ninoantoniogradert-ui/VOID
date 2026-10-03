@@ -17,7 +17,7 @@ Danach `http://VOID/` öffnen.
 Alle öffentlichen Integrationswerte liegen in `dist/js/config.js`:
 
 - `discordInviteUrl`: offizieller Discord-Link
-- `launcherDownloadUrl`: echter, direkter Einzeldatei-Download innerhalb der Website (`./download/VOID.exe`)
+- `launcherDownloadUrl`: echter, direkter Windows-Installer-Download innerhalb der Website (`./download/VOID-Setup.exe`)
 - `apiBaseUrl`, `statusEndpoint`, `serversEndpoint`: bestehende VOID-API. Die API wird nur auf dem lokalen `http://void/` angesprochen; öffentliche Besucher erhalten keinen lokalen `localhost`-Aufruf.
 - `servers` und `products`: Inhalte der Server- und Store-Karten
 
@@ -36,3 +36,4 @@ Die Datei `.openai/hosting.json` beschreibt eine statische Veröffentlichung des
 Die vollständige GitHub-Pages-Automatisierung liegt in `.github/workflows/deploy-pages.yml`. Sie veröffentlicht bei jedem Push auf `main` ausschließlich `dist` und ist für die Projektadresse `https://ninoantoniogradert-ui.github.io/VOID/` vorbereitet.
 
 Für die erstmalige öffentliche Bereitstellung muss das GitHub-Konto `ninoantoniogradert-ui` einmalig ein leeres öffentliches Repository namens `VOID` bereitstellen und den Inhalt dieses Ordners in dessen `main`-Branch pushen. Danach in GitHub unter **Settings → Pages → Build and deployment → Source** die Option **GitHub Actions** wählen. Jeder weitere Push auf `main` veröffentlicht automatisch die aktuelle Seite.
+

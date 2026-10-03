@@ -23,9 +23,10 @@ http.createServer((request, response) => {
     if (error || !stats.isFile()) { response.writeHead(404); response.end("Not found"); return; }
     const extension = path.extname(filePath).toLowerCase();
     const headers = { "Content-Type": contentTypes[extension] || "application/octet-stream", "X-Content-Type-Options": "nosniff", "Cache-Control": extension === ".exe" ? "no-store" : "no-cache" };
-    if (extension === ".exe") headers["Content-Disposition"] = "attachment; filename=VOID.exe";
+    if (extension === ".exe") headers["Content-Disposition"] = "attachment; filename=VOID-Setup.exe";
     response.writeHead(200, headers);
     if (request.method === "HEAD") { response.end(); return; }
     fs.createReadStream(filePath).pipe(response);
   });
 }).listen(port, host, () => console.log(`VOID website is available at http://VOID/ (http://${host}:${port}/)`));
+

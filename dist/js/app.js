@@ -136,3 +136,4 @@
 
   window.addEventListener("beforeunload", () => { if (statusTimer) window.clearInterval(statusTimer); });
 })();
+
