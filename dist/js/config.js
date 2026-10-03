@@ -6,7 +6,7 @@ window.VOID_CONFIG = Object.freeze({
   // http://void/ and on GitHub Pages at /VOID/. Visitors receive a setup
   // program, not a portable launcher executable.
   launcherDownloadUrl: "./download/VOID-Setup.exe",
-  launcherVersion: "1.3.19",
+  launcherVersion: "1.3.21",
   // The local launcher backend is intentionally never requested by visitors
   // to the public website. On GitHub Pages the public UI stays available and
   // shows the server state as unknown until a public API is configured.

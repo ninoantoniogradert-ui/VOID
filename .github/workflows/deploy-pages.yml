@@ -6,6 +6,7 @@ on:
     paths:
       - "dist/**"
       - "assets/installer/**"
+      - "assets/launcher/**"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 
@@ -31,18 +32,35 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Restore VOID Windows installer
+      - name: Restore verified VOID release files
         shell: bash
         run: |
           python3 - <<'PY'
           import base64, glob, gzip, hashlib
           from pathlib import Path
-          chunks = "".join(Path(part).read_text(encoding="ascii") for part in sorted(glob.glob("assets/installer/1.3.19/VOID-Setup.exe.gz.b64.part-*")))
-          installer = gzip.decompress(base64.b64decode(chunks))
-          assert hashlib.sha256(installer).hexdigest().upper() == "4EEFAB465339FED1C0E9F66DB226F6BCCA7F22FDEFCD573D37DCC89C3E4665EA"
-          target = Path("dist/download/VOID-Setup.exe")
-          target.parent.mkdir(parents=True, exist_ok=True)
-          target.write_bytes(installer)
+
+          def restore(pattern, destination, expected_hash):
+              chunks = "".join(
+                  Path(part).read_text(encoding="ascii")
+                  for part in sorted(glob.glob(pattern))
+              )
+              payload = gzip.decompress(base64.b64decode(chunks))
+              actual_hash = hashlib.sha256(payload).hexdigest().upper()
+              assert actual_hash == expected_hash, f"hash mismatch for {destination}: {actual_hash}"
+              target = Path(destination)
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(payload)
+
+          restore(
+              "assets/installer/1.3.21/VOID-Setup.exe.gz.b64.part-*",
+              "dist/download/VOID-Setup.exe",
+              "DF3E9F602CE01EB4375F9428E9EA7268EDDB62800F9AFDDB23DEA26A535A28CD",
+          )
+          restore(
+              "assets/launcher/1.3.21/VOID.exe.gz.b64.part-*",
+              "dist/download/VOID.exe",
+              "B63950D993D20D6C915108AF1D7F6FD0D25B804CFE4D37E94AE24CB77454D0F1",
+          )
           PY
       - name: Upload static website
         uses: actions/upload-pages-artifact@v4
