@@ -52,14 +52,14 @@ jobs:
               target.write_bytes(payload)
 
           restore(
-              "assets/installer/1.3.21/VOID-Setup.exe.gz.b64.part-*",
+              "assets/installer/2.00/VOID-Setup.exe.gz.b64.part-*",
               "dist/download/VOID-Setup.exe",
-              "DF3E9F602CE01EB4375F9428E9EA7268EDDB62800F9AFDDB23DEA26A535A28CD",
+              "A3034812152628AA7FCFA1720030C262621A046F8C71CEE70757726996C4B621",
           )
           restore(
-              "assets/launcher/1.3.21/VOID.exe.gz.b64.part-*",
+              "assets/launcher/2.00/VOID.exe.gz.b64.part-*",
               "dist/download/VOID.exe",
-              "B63950D993D20D6C915108AF1D7F6FD0D25B804CFE4D37E94AE24CB77454D0F1",
+              "10A6D7AE610E379FF471159562EE4195D12900F2253C6DAD2ED7B26C50605FE4",
           )
           PY
       - name: Upload static website

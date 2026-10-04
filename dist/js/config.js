@@ -6,14 +6,13 @@ window.VOID_CONFIG = Object.freeze({
   // http://void/ and on GitHub Pages at /VOID/. Visitors receive a setup
   // program, not a portable launcher executable.
   launcherDownloadUrl: "./download/VOID-Setup.exe",
-  launcherVersion: "1.3.21",
-  // The local launcher backend is intentionally never requested by visitors
-  // to the public website. On GitHub Pages the public UI stays available and
-  // shows the server state as unknown until a public API is configured.
-  apiBaseUrl: ["void", "localhost", "127.0.0.1"].includes(window.location.hostname) ? "http://127.0.0.1:3551" : "",
+  launcherVersion: "2.00",
+  // GitHub Pages uses the public Render API. No visitor-facing request uses
+  // a machine-specific address.
+  apiBaseUrl: "https://void-backend-nitn.onrender.com",
   statusEndpoint: "/api/status",
   serversEndpoint: "/api/servers",
-  developmentMode: true,
+  developmentMode: false,
   statusRefreshMs: 30000,
   servers: [
     { id: "lategame-arena", region: "EU", modeKey: "serverModeLateGame" },
